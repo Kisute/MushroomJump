@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using static UnityEngine.Random;
 using UnityEngine;
 
-public class ChangeColorRandomly : MonoBehaviour
+public class ChangeColor : MonoBehaviour
 {
     public Material[] alternativeColors;
     int i;
@@ -20,14 +20,29 @@ public class ChangeColorRandomly : MonoBehaviour
         Material[] materials = rend.sharedMaterials; 
         materials[indexOfMaterial] = alternativeColors[i];
         rend.sharedMaterials = materials;
-        InvokeRepeating("ChangeColor", 0f, speed);
     }
 
     // Update is called once per frame
-    void ChangeColor()
+    void RandomColor()
     {
         i = Random.Range(0, alternativeColors.Length);
 
+        rend = GetComponent<Renderer>();
+        Material[] materials = rend.sharedMaterials;
+        materials[indexOfMaterial] = alternativeColors[i];
+        rend.sharedMaterials = materials;
+    }
+
+    public void NextColor()
+    {
+        if (i < alternativeColors.Length - 1)
+        {
+            i++;
+        }
+        else
+        {
+            i = 0;
+        }
         rend = GetComponent<Renderer>();
         Material[] materials = rend.sharedMaterials;
         materials[indexOfMaterial] = alternativeColors[i];
