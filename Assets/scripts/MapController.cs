@@ -56,7 +56,7 @@ public class MapController : MonoBehaviour
             {
                 while (spot < bigestCountInTheRow)
                 {
-                    mushroomArray[row, spot] = '0';
+                    mushroomArray[spot, row] = '0';
                     spot++;
                 }
                 row++;
@@ -64,12 +64,12 @@ public class MapController : MonoBehaviour
             }
             else
             {
-                mushroomArray[row, spot] = stringBuilder[i];
+                mushroomArray[spot, row] = stringBuilder[i];
 
                 Debug.Log("i: " +stringBuilder[i] + " "+ "next mushroomindex :" +nextMushroomIndex);
                 if (stringBuilder[i] != '0') 
                 {
-                    mushroomObjectArray[row, spot] = mushroomObjects[nextMushroomIndex];
+                    mushroomObjectArray[spot, row] = mushroomObjects[nextMushroomIndex];
                     nextMushroomIndex++;    
                 }
                 
@@ -82,51 +82,84 @@ public class MapController : MonoBehaviour
         
 
         directions = new int[4,2];
-        directions[0, 0] = 0; directions[0, 1] = 1; //left
-        directions[1, 0] = 1; directions[1, 1] = 0; //down
-        directions[2, 0] = 0; directions[2, 1] = -1;//right
-        directions[3, 0] = -1; directions[3, 1] = 0;//up
+        directions[0, 0] = 0; directions[0, 1] = -1; //up
+        directions[1, 0] = 1; directions[1, 1] = 0;  //right
+        directions[2, 0] = 0; directions[2, 1] = 1;  //down
+        directions[3, 0] = -1; directions[3, 1] = 0; //left
+        
+        
+        
 
         InvokeRepeating("Changes", 0f, rythmn);
+
+        //InvokeRepeating("Changes2", 0f, 0.01f);
 
     }
 
     void Changes()
     {
-        if (dirctionIndex < directions.GetLength(0)-1)
-        {
-            dirctionIndex++;
-        }
-        else
-        {
-            dirctionIndex = 0;
-        }
+        Debug.Log("Direction " + dirctionIndex);
+
+        bool notGood = true;
+        int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
+        int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
+        /*
+        while (notGood)
+        { */
+            if (dirctionIndex < (directions.GetLength(0) - 1))
+            {
+                dirctionIndex++;
+            }
+            else
+            {
+                dirctionIndex = 0;
+            }
+            /*
+            if (newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
+            && newPlayerPosition[0] < mushroomObjectArray.GetLength(0)
+            && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)
+            && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null) notGood = false;
+            else newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
+        } */
 
         for (int j = 0; j < mushroomObjects.Length; j++)
         {
             mushroomObjects[j].GetComponent<Mushroom>().ChangeColor();
         }
+
+
         //player.GetComponent<PlayerScript>().ChangeColor();
     }
 
-    public void PlayerMoves()
-    {           Debug.Log("playerMoves");
-                int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
-
-                    Debug.Log("i: "+ dirctionIndex);
-                    if (directions[dirctionIndex, 0] + playerPosition[0]>=0 && directions[dirctionIndex, 1] + playerPosition[1] >= 0
-                    && directions[dirctionIndex, 0] + playerPosition[0] < mushroomArray.GetLength(0) &&
-                    directions[dirctionIndex, 1] + playerPosition[1] < mushroomArray.GetLength(1))
-                    {
-                        Debug.Log("mushroomArray.GetLength(1) " + mushroomArray.GetLength(1));
-                        Debug.Log("mushroomArray.GetLength(0) " + mushroomArray.GetLength(0));
-
-                        Debug.Log("y direction " + directions[dirctionIndex, 1]);
-                        player.GetComponent<PlayerScript>().Move(directions[dirctionIndex, 0], directions[dirctionIndex, 1]);
-                    
-                        //if mushroomObjectArray.getColor()
-                    }
-                
+    void Changes2()
+    {
+        mushroomObjectArray[2,1].GetComponent<Mushroom>().ChangeColor();
     }
-       
+
+        public void PlayerMoves()
+    { 
+        Debug.Log("playerMoves");
+        int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
+
+        int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
+
+        Debug.Log("i: " + dirctionIndex);
+        Debug.Log("playerposition" + playerPosition[0] + "," + playerPosition[1]);
+        Debug.Log("new position" + newPlayerPosition[0] + "," + newPlayerPosition[1]);
+        Debug.Log("mushroomArray.GetLength(1) " + mushroomObjectArray.GetLength(1));
+        Debug.Log("mushroomArray.GetLength(0) " + mushroomObjectArray.GetLength(0));
+
+        if (newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
+        && newPlayerPosition[0] < mushroomObjectArray.GetLength(0) 
+        && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)
+        && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null)
+        {
+            Debug.Log("y direction " + directions[dirctionIndex, 1]);
+            player.GetComponent<PlayerScript>().Move(directions[dirctionIndex, 0], directions[dirctionIndex, 1]);
+
+            //if mushroomObjectArray.getColor()
+        }
+    }
+                
 }
+       
