@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class ArrowScript : MonoBehaviour
 {
-    public Material[] alternativeColors;
-    public int indexOfStartingmaterial;
-    int i;
-    public int indexOfMaterial;
+    [SerializeField] Material[] alternativeColors;
+    [SerializeField] int indexOfStartingmaterial;
+    [SerializeField] int indexOfMaterial;
     Renderer rend;
-    public float speed;
+    [SerializeField] float speed;
 
     // Start is called before the first frame update
     void Start()

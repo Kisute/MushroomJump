@@ -1,34 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
-using static UnityEngine.Random;
 using UnityEngine;
 
 public class Mushroom : MonoBehaviour
 {
-    public Material[] alternativeColors;
-    int i;
-    public int indexOfMaterial;
+    [SerializeField] Material[] alternativeColors;
+    [SerializeField] Material deadMushroom;
+    int ColorIndex;
+    [SerializeField] GameObject mushroom;
+    [SerializeField] int indexOfMaterial;
+    [SerializeField] int indexOfSecondMaterial;
+    [SerializeField] Animator animator;
     Renderer rend;
 
     // Start is called before the first frame update
     void Start()
     {
-        i = Random.Range(0, alternativeColors.Length);
-
-        rend = GetComponent<Renderer>();
-        Material[] materials = rend.sharedMaterials; 
-        materials[indexOfMaterial] = alternativeColors[i];
-        rend.sharedMaterials = materials;
+        ChangeColor();
     }
 
     // Update is called once per frame
     public void ChangeColor()
     {
-        i = Random.Range(0, alternativeColors.Length);
+        ColorIndex = Random.Range(0, alternativeColors.Length);
 
-        rend = GetComponent<Renderer>();
+        rend = mushroom.GetComponentInChildren<Renderer>();
         Material[] materials = rend.sharedMaterials;
-        materials[indexOfMaterial] = alternativeColors[i];
+        materials[indexOfMaterial] = alternativeColors[ColorIndex];
+        rend.sharedMaterials = materials;
+    }
+
+    internal void Die()
+    {
+        animator.Play("die");
+        rend = mushroom.GetComponentInChildren<Renderer>();
+        Material[] materials = rend.sharedMaterials;
+        materials[indexOfMaterial] = deadMushroom;
+        materials[indexOfSecondMaterial] = deadMushroom;
         rend.sharedMaterials = materials;
     }
 }

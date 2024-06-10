@@ -8,10 +8,10 @@ using UnityEngine;
 public class MapController : MonoBehaviour
 {
 
-    public string mushrooms;
-    public GameObject[] mushroomObjects;
-    public GameObject player;
-    public float rythmn;
+    [SerializeField] string mushrooms;
+    [SerializeField] GameObject[] mushroomObjects;
+    [SerializeField] GameObject player;
+    [SerializeField] float rythmn;
 
     int dirctionIndex;
     int[,] directions;
@@ -67,7 +67,7 @@ public class MapController : MonoBehaviour
                 mushroomArray[spot, row] = stringBuilder[i];
 
                 Debug.Log("i: " +stringBuilder[i] + " "+ "next mushroomindex :" +nextMushroomIndex);
-                if (stringBuilder[i] != '0') 
+                if (stringBuilder[i] != '0' && nextMushroomIndex<mushroomObjects.Length) 
                 {
                     mushroomObjectArray[spot, row] = mushroomObjects[nextMushroomIndex];
                     nextMushroomIndex++;    
@@ -102,21 +102,23 @@ public class MapController : MonoBehaviour
 
         FindGoodDirection();
 
-        for (int j = 0; j < mushroomObjects.Length; j++)
+        for (int j = 0; j < mushroomObjectArray.GetLength(0); j++)
         {
-            mushroomObjects[j].GetComponent<Mushroom>().ChangeColor();
+            for (int k = 0; k < mushroomObjectArray.GetLength(1); k++)
+            {
+                if (mushroomObjectArray[j, k]!=null) mushroomObjectArray[j,k].GetComponent<Mushroom>().ChangeColor();
+            }
         }
-
-
-        //player.GetComponent<PlayerScript>().ChangeColor();
+        player.GetComponent<PlayerScript>().ChangeColor();
     }
 
     private void FindGoodDirection()
     {
-        bool notGood = true;
         int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
 
-        while (notGood)
+        int checkedDirections = 0;
+        bool found = false;
+        while (checkedDirections <4)
         {
             
             if (dirctionIndex < (directions.GetLength(0) - 1))
@@ -131,9 +133,12 @@ public class MapController : MonoBehaviour
             if (newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
             && newPlayerPosition[0] < mushroomObjectArray.GetLength(0)
             && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)
-            && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null) notGood = false;
+            && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null) { found = true; checkedDirections = 4; }
+            checkedDirections++;
         }
-        player.GetComponent<PlayerScript>().ChangeArrowDirections(dirctionIndex);
+        if (found) player.GetComponent<PlayerScript>().ChangeArrowDirections(dirctionIndex);
+        else //TODO
+             ;
     }
 
     void Changes2()
@@ -141,17 +146,18 @@ public class MapController : MonoBehaviour
         mushroomObjectArray[2,1].GetComponent<Mushroom>().ChangeColor();
     }
 
-        public void PlayerMoves()
+    public void PlayerMoves()
     { 
         Debug.Log("playerMoves");
         int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
 
+        mushroomObjectArray[playerPosition[0], playerPosition[1]].GetComponent<Mushroom>().Die();
+        mushroomObjectArray[playerPosition[0], playerPosition[1]] =null;
 
-
-        Debug.Log("y direction " + directions[dirctionIndex, 1]);
         player.GetComponent<PlayerScript>().Move(directions[dirctionIndex, 0], directions[dirctionIndex, 1]);
-
         int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
+
+
         if (!(newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
         && newPlayerPosition[0] < mushroomObjectArray.GetLength(0)
         && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)

@@ -142,6 +142,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 105494521756197385}
     m_Modifications:
+    - target: {fileID: 1082070333267075767, guid: ec5a7bb5c149f9f4a926796634079236, type: 3}
+      propertyPath: deadMushroom
+      value: 
+      objectReference: {fileID: 2100000, guid: b5d801d4d4dea0147939bf4625621f52, type: 2}
     - target: {fileID: 5800491393756037243, guid: ec5a7bb5c149f9f4a926796634079236, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.158

@@ -1,18 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Random;
 
 public class PlayerScript : MonoBehaviour
 {
-    public MapController mapController;
-    public Material[] alternativeColors;
-    public int[] position = new int[2];
-    public int indexOfMaterial;
+    [Header("variables")] 
+    [SerializeField] MapController mapController;
+    [SerializeField] Material[] alternativeColors;
+    [SerializeField] int[] position = new int[2];
+    [SerializeField] int indexOfMaterial;
     Renderer rend;
     int colorIndex = 0;
-    public GameObject[] arrows = new GameObject[4]; 
+    [SerializeField] GameObject[] arrows = new GameObject[4];
+    [SerializeField] GameObject playerModel;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +18,7 @@ public class PlayerScript : MonoBehaviour
         rend = GetComponent<Renderer>();
         Debug.Log("position: " + position[0] + "," + position[1]);
         arrows[0].GetComponent<ArrowScript>().GoOn();
+        ChangeColor();
     }
 
     void Update()
@@ -33,9 +32,9 @@ public class PlayerScript : MonoBehaviour
 
     public void ChangeColor()
     {
-        //i = Random.Range(0, alternativeColors.Length);
+        rend = playerModel.GetComponentInChildren<Renderer>();
+        colorIndex = Random.Range(0, alternativeColors.Length);
 
-        rend = GetComponent<Renderer>();
         Material[] materials = rend.sharedMaterials;
         materials[indexOfMaterial] = alternativeColors[colorIndex];
         rend.sharedMaterials = materials;
