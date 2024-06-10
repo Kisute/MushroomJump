@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class MapController : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class MapController : MonoBehaviour
     int[,] directions;
     char[,] mushroomArray;
     GameObject[,] mushroomObjectArray;
+    bool playerIsDead=false;
 
     void Start()
     {
@@ -137,8 +140,28 @@ public class MapController : MonoBehaviour
             checkedDirections++;
         }
         if (found) player.GetComponent<PlayerScript>().ChangeArrowDirections(dirctionIndex);
-        else //TODO
-             ;
+        
+        else
+        {
+            if (mushroomObjectArray[playerPosition[0], playerPosition[1]] != null)
+            {
+                mushroomObjectArray[playerPosition[0], playerPosition[1]].GetComponent<Mushroom>().Die();
+                mushroomObjectArray[playerPosition[0], playerPosition[1]] = null;
+            }
+            for (int i = 0; i<mushroomObjectArray.GetLength(0); i++) 
+            {
+                for (int j = 0; j < mushroomObjectArray.GetLength(0); j++)
+                {
+
+                    if (mushroomObjectArray[i, j] != null) { playerIsDead = true; this.Invoke("Restart", 1f); }
+                }
+            }
+        }
+    }
+
+    void Restart()
+    {
+        SceneManager.LoadScene("Scenes/test scene");
     }
 
     void Changes2()
@@ -147,7 +170,8 @@ public class MapController : MonoBehaviour
     }
 
     public void PlayerMoves()
-    { 
+    {
+        if (playerIsDead) return;
         Debug.Log("playerMoves");
         int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
 
