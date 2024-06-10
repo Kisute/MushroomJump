@@ -12,12 +12,14 @@ public class PlayerScript : MonoBehaviour
     public int indexOfMaterial;
     Renderer rend;
     int colorIndex = 0;
+    public GameObject[] arrows = new GameObject[4]; 
 
     // Start is called before the first frame update
     void Start()
     {
         rend = GetComponent<Renderer>();
         Debug.Log("position: " + position[0] + "," + position[1]);
+        arrows[0].GetComponent<ArrowScript>().GoOn();
     }
 
     void Update()
@@ -56,5 +58,14 @@ public class PlayerScript : MonoBehaviour
 
 
         Debug.Log("new position: " + position[0] + "," + position[1]);
+    }
+
+    public void ChangeArrowDirections(int direction)
+    {
+        for (int i = 0; i < arrows.Length; i++)
+        {
+            arrows[i].GetComponent<ArrowScript>().GoOff();
+        }
+        arrows[direction].GetComponent<ArrowScript>().GoOn();
     }
 }

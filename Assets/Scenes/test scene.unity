@@ -340,6 +340,10 @@ PrefabInstance:
       propertyPath: indexOfStartingmaterial
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3948407048634736449, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+      propertyPath: alternativeColors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
       propertyPath: m_Name
       value: arrow (1)
@@ -438,6 +442,11 @@ Transform:
   - {fileID: 2039650036}
   m_Father: {fileID: 910181082}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &600259459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+  m_PrefabInstance: {fileID: 1799400658}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &673037547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7933072001739451008, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
@@ -822,6 +831,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1872910727}
   m_LocalEulerAnglesHint: {x: 62.604, y: 180, z: 0}
+--- !u!1 &1058543225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+  m_PrefabInstance: {fileID: 1229731645}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1159908215 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6572067543014070977, guid: ec5a7bb5c149f9f4a926796634079236, type: 3}
@@ -857,6 +871,10 @@ PrefabInstance:
     - target: {fileID: 3948407048634736449, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
       propertyPath: indexOfStartingmaterial
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948407048634736449, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+      propertyPath: alternativeColors.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
       propertyPath: m_Name
@@ -964,6 +982,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec5a7bb5c149f9f4a926796634079236, type: 3}
+--- !u!1 &1383185976 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+  m_PrefabInstance: {fileID: 2262055028449144943}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1389638539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1025,6 +1048,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7933072001739451008, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
   m_PrefabInstance: {fileID: 2262055028449144943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1527107565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+  m_PrefabInstance: {fileID: 413407232}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1566312179
 PrefabInstance:
@@ -1291,6 +1319,10 @@ PrefabInstance:
       propertyPath: indexOfStartingmaterial
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3948407048634736449, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+      propertyPath: alternativeColors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
       propertyPath: m_Name
       value: arrow (3)
@@ -1397,6 +1429,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 94d74f780903283469983d49159c8c21, type: 2}
   position: 0000000002000000
   indexOfMaterial: 0
+  arrows:
+  - {fileID: 1383185976}
+  - {fileID: 1058543225}
+  - {fileID: 1527107565}
+  - {fileID: 600259459}
 --- !u!1 &1874525508 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6572067543014070977, guid: ec5a7bb5c149f9f4a926796634079236, type: 3}
@@ -1494,6 +1531,10 @@ PrefabInstance:
     - target: {fileID: 3948407048634736449, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
       propertyPath: indexOfStartingmaterial
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3948407048634736449, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
+      propertyPath: alternativeColors.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7303781246788087866, guid: 610ecc49dc7068e44a73ca76f9814088, type: 3}
       propertyPath: m_Name

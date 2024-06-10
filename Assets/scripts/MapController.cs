@@ -100,27 +100,7 @@ public class MapController : MonoBehaviour
     {
         Debug.Log("Direction " + dirctionIndex);
 
-        bool notGood = true;
-        int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
-        int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
-        /*
-        while (notGood)
-        { */
-            if (dirctionIndex < (directions.GetLength(0) - 1))
-            {
-                dirctionIndex++;
-            }
-            else
-            {
-                dirctionIndex = 0;
-            }
-            /*
-            if (newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
-            && newPlayerPosition[0] < mushroomObjectArray.GetLength(0)
-            && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)
-            && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null) notGood = false;
-            else newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
-        } */
+        FindGoodDirection();
 
         for (int j = 0; j < mushroomObjects.Length; j++)
         {
@@ -129,6 +109,31 @@ public class MapController : MonoBehaviour
 
 
         //player.GetComponent<PlayerScript>().ChangeColor();
+    }
+
+    private void FindGoodDirection()
+    {
+        bool notGood = true;
+        int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
+
+        while (notGood)
+        {
+            
+            if (dirctionIndex < (directions.GetLength(0) - 1))
+            {
+                dirctionIndex++;
+            }
+            else
+            {
+                dirctionIndex = 0;
+            }
+            int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
+            if (newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
+            && newPlayerPosition[0] < mushroomObjectArray.GetLength(0)
+            && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)
+            && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null) notGood = false;
+        }
+        player.GetComponent<PlayerScript>().ChangeArrowDirections(dirctionIndex);
     }
 
     void Changes2()
@@ -141,24 +146,22 @@ public class MapController : MonoBehaviour
         Debug.Log("playerMoves");
         int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
 
+
+
+        Debug.Log("y direction " + directions[dirctionIndex, 1]);
+        player.GetComponent<PlayerScript>().Move(directions[dirctionIndex, 0], directions[dirctionIndex, 1]);
+
         int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
-
-        Debug.Log("i: " + dirctionIndex);
-        Debug.Log("playerposition" + playerPosition[0] + "," + playerPosition[1]);
-        Debug.Log("new position" + newPlayerPosition[0] + "," + newPlayerPosition[1]);
-        Debug.Log("mushroomArray.GetLength(1) " + mushroomObjectArray.GetLength(1));
-        Debug.Log("mushroomArray.GetLength(0) " + mushroomObjectArray.GetLength(0));
-
-        if (newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
-        && newPlayerPosition[0] < mushroomObjectArray.GetLength(0) 
+        if (!(newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
+        && newPlayerPosition[0] < mushroomObjectArray.GetLength(0)
         && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)
-        && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null)
+        && mushroomObjectArray[newPlayerPosition[0], newPlayerPosition[1]] != null))
         {
-            Debug.Log("y direction " + directions[dirctionIndex, 1]);
-            player.GetComponent<PlayerScript>().Move(directions[dirctionIndex, 0], directions[dirctionIndex, 1]);
-
-            //if mushroomObjectArray.getColor()
+            FindGoodDirection();
         }
+
+
+
     }
                 
 }
