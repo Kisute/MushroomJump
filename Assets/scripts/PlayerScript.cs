@@ -12,6 +12,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] GameObject[] arrows = new GameObject[4];
     [SerializeField] GameObject playerModel;
 
+    [SerializeField] AudioSource jumpSound;
+    [SerializeField] AudioSource dyingSound;
+
     void Start()
     {
         rend = GetComponent<Renderer>();
@@ -50,6 +53,7 @@ public class PlayerScript : MonoBehaviour
     // liikuttaa pelaajaa ja tallentaa uudet koordinaatit
     public void Move(int x, int y)
     {
+        jumpSound.Play();
         transform.Translate(Vector3.forward * (y) * 2);
         transform.Translate(Vector3.left * (x) * 2);
         
@@ -57,8 +61,13 @@ public class PlayerScript : MonoBehaviour
         position[1] = position[1] + y;
     }
 
-    // muuttaa pelaajan nuolet
-    public void ChangeArrowDirections(int direction)
+    public void Die()
+    {
+        dyingSound.Play();
+    }
+
+        // muuttaa pelaajan nuolet
+        public void ChangeArrowDirections(int direction)
     {
         for (int i = 0; i < arrows.Length; i++)
         {

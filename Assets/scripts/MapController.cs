@@ -48,8 +48,8 @@ public class MapController : MonoBehaviour
         if (CountInTheRow!=0) rowCount++;
         if (CountInTheRow > bigestCountInTheRow) bigestCountInTheRow = CountInTheRow;
 
-        mushroomArray = new char[rowCount, bigestCountInTheRow];
-        mushroomObjectArray = new GameObject[rowCount, bigestCountInTheRow];
+        mushroomArray = new char[bigestCountInTheRow, rowCount];
+        mushroomObjectArray = new GameObject[bigestCountInTheRow, rowCount];
         
         int row = 0;
         int spot = 0;
@@ -104,7 +104,6 @@ public class MapController : MonoBehaviour
                 if (mushroomObjectArray[j, k]!=null) mushroomObjectArray[j,k].GetComponent<Mushroom>().ChangeColor();
             }
         }
-        player.GetComponent<PlayerScript>().ChangeColor();
     }
 
     // Etsitään sopiva suunta jonne pelaaja voi seuraavaksi mennä jos sopivaa ei löydy tarkistetaan onko pelaaja voittanut vai hävinnyt pelin
@@ -144,10 +143,10 @@ public class MapController : MonoBehaviour
             }
             for (int i = 0; i<mushroomObjectArray.GetLength(0); i++) 
             {
-                for (int j = 0; j < mushroomObjectArray.GetLength(0); j++)
+                for (int j = 0; j < mushroomObjectArray.GetLength(1); j++)
                 {
 
-                    if (mushroomObjectArray[i, j] != null) { this.Invoke("Restart", 1f); return; }
+                    if (mushroomObjectArray[i, j] != null ) { player.GetComponent<PlayerScript>().Die(); this.Invoke("Restart", 1f); return; }
                 }
 
             }
