@@ -92,6 +92,7 @@ public class MapController : MonoBehaviour
     // Suoritetaan kaikki muutokset jotka tapahtuvat säännöllisesti
     void Changes()
     {
+        if (lossMenu.GetComponent<MenuManager>().isOpen()) return;
         Debug.Log("Direction " + dirctionIndex);
 
         FindGoodDirection();
@@ -190,6 +191,13 @@ public class MapController : MonoBehaviour
 
         player.GetComponent<PlayerScript>().Move(directions[dirctionIndex, 0], directions[dirctionIndex, 1]);
         int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
+
+        if (player.GetComponent<PlayerScript>().GetColor() != mushroomObjectArray[playerPosition[0], playerPosition[1]].GetComponent<Mushroom>().GetColor())
+        {
+            playerIsUnableToMove = true;
+            this.Invoke("Restart", 1f);
+            return;
+        }
 
         // Jos nykyinen nuolen suunta ei ole hyvä etsitään uusi
         if (!(newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0

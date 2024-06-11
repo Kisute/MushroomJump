@@ -66,4 +66,9 @@ public class PlayerScript : MonoBehaviour
         }
         arrows[direction].GetComponent<ArrowScript>().GoOn();
     }
+
+    internal int GetColor()
+    {
+        return colorIndex;
+    }
 }

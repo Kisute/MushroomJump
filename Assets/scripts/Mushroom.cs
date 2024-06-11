@@ -4,7 +4,7 @@ public class Mushroom : MonoBehaviour
 {
     [SerializeField] Material[] alternativeColors;
     [SerializeField] Material deadMushroom;
-    int ColorIndex;
+    int colorIndex;
     [SerializeField] GameObject mushroom;
     [SerializeField] int indexOfMaterial;
     [SerializeField] int indexOfSecondMaterial;
@@ -19,11 +19,11 @@ public class Mushroom : MonoBehaviour
     // Vaihtaa sienen värin sattumanvaraisesti
     public void ChangeColor()
     {
-        ColorIndex = Random.Range(0, alternativeColors.Length);
+        colorIndex = Random.Range(0, alternativeColors.Length);
 
         rend = mushroom.GetComponentInChildren<Renderer>();
         Material[] materials = rend.sharedMaterials;
-        materials[indexOfMaterial] = alternativeColors[ColorIndex];
+        materials[indexOfMaterial] = alternativeColors[colorIndex];
         rend.sharedMaterials = materials;
     }
 
@@ -36,6 +36,11 @@ public class Mushroom : MonoBehaviour
         materials[indexOfMaterial] = deadMushroom;
         materials[indexOfSecondMaterial] = deadMushroom;
         rend.sharedMaterials = materials;
+    }
+
+    internal int GetColor()
+    {
+        return colorIndex;
     }
 }
 
