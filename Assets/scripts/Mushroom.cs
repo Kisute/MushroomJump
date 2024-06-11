@@ -11,13 +11,12 @@ public class Mushroom : MonoBehaviour
     [SerializeField] Animator animator;
     Renderer rend;
 
-    // Start is called before the first frame update
     void Start()
     {
         ChangeColor();
     }
 
-    // Update is called once per frame
+    // Vaihtaa sienen v‰rin sattumanvaraisesti
     public void ChangeColor()
     {
         ColorIndex = Random.Range(0, alternativeColors.Length);
@@ -28,6 +27,7 @@ public class Mushroom : MonoBehaviour
         rend.sharedMaterials = materials;
     }
 
+    // Huolehtii siit‰ milt‰ sienen tuhoutuminen n‰ytt‰‰
     internal void Die()
     {
         animator.Play("die");

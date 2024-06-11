@@ -6,17 +6,10 @@ using UnityEngine;
 public class ArrowScript : MonoBehaviour
 {
     [SerializeField] Material[] alternativeColors;
-    [SerializeField] int indexOfStartingmaterial;
     [SerializeField] int indexOfMaterial;
     Renderer rend;
-    [SerializeField] float speed;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
+    // muuttaa nuolen värin kirkkaaksi kertomaan siitä että nuoli on aktiivinen
     public void GoOn()
     {
         rend = GetComponent<Renderer>();
@@ -25,6 +18,7 @@ public class ArrowScript : MonoBehaviour
         rend.sharedMaterials = materials;
     }
 
+    // muuttaa nuolen värin tummaksi kertomaan siitä että nuoli ei ole aktiivinen
     public void GoOff()
     {
         rend = GetComponent<Renderer>();

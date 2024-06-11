@@ -14,13 +14,15 @@ public class MapController : MonoBehaviour
     [SerializeField] GameObject[] mushroomObjects;
     [SerializeField] GameObject player;
     [SerializeField] float rythmn;
+    [SerializeField] GameObject menu;
 
     int dirctionIndex;
     int[,] directions;
     char[,] mushroomArray;
     GameObject[,] mushroomObjectArray;
-    bool playerIsDead=false;
+    bool playerIsUnableToMove = false;
 
+    // alustetaan tarvittavat asiat
     void Start()
     {
         int rowCount =0;
@@ -44,8 +46,6 @@ public class MapController : MonoBehaviour
         }
         if (CountInTheRow!=0) rowCount++;
         if (CountInTheRow > bigestCountInTheRow) bigestCountInTheRow = CountInTheRow;
-
-        //Debug.Log("taulukon leveys on " + rowCount + " ja pituus on " + bigestCountInTheRow);
 
         mushroomArray = new char[rowCount, bigestCountInTheRow];
         mushroomObjectArray = new GameObject[rowCount, bigestCountInTheRow];
@@ -75,30 +75,20 @@ public class MapController : MonoBehaviour
                     mushroomObjectArray[spot, row] = mushroomObjects[nextMushroomIndex];
                     nextMushroomIndex++;    
                 }
-                
-                //Debug.Log("(" + row + "," + spot + ") " + mushroomArray[row, spot]);
                 spot++;
             }
-
         } 
-        
-        
 
         directions = new int[4,2];
         directions[0, 0] = 0; directions[0, 1] = -1; //up
         directions[1, 0] = 1; directions[1, 1] = 0;  //right
         directions[2, 0] = 0; directions[2, 1] = 1;  //down
         directions[3, 0] = -1; directions[3, 1] = 0; //left
-        
-        
-        
 
         InvokeRepeating("Changes", 0f, rythmn);
-
-        //InvokeRepeating("Changes2", 0f, 0.01f);
-
     }
 
+    // Suoritetaan kaikki muutokset jotka tapahtuvat säännöllisesti
     void Changes()
     {
         Debug.Log("Direction " + dirctionIndex);
@@ -115,6 +105,7 @@ public class MapController : MonoBehaviour
         player.GetComponent<PlayerScript>().ChangeColor();
     }
 
+    // Etsitään sopiva suunta jonne pelaaja voi seuraavaksi mennä jos sopivaa ei löydy tarkistetaan onko pelaaja voittanut vai hävinnyt pelin
     private void FindGoodDirection()
     {
         int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
@@ -143,6 +134,7 @@ public class MapController : MonoBehaviour
         
         else
         {
+            playerIsUnableToMove = true;
             if (mushroomObjectArray[playerPosition[0], playerPosition[1]] != null)
             {
                 mushroomObjectArray[playerPosition[0], playerPosition[1]].GetComponent<Mushroom>().Die();
@@ -153,26 +145,37 @@ public class MapController : MonoBehaviour
                 for (int j = 0; j < mushroomObjectArray.GetLength(0); j++)
                 {
 
-                    if (mushroomObjectArray[i, j] != null) { playerIsDead = true; this.Invoke("Restart", 1f); }
+                    if (mushroomObjectArray[i, j] != null) { this.Invoke("Restart", 1f); }
                 }
+
             }
+            this.Invoke("NextLevel", 1f);
         }
     }
 
+    // käynnistetään seuraava taso
+    void NextLevel()
+    {
+        menu.GetComponent<MenuManager>().OpenMenu();
+    }
+
+    // Käynnistetään nykyinen taso uusiksi
     void Restart()
     {
-        SceneManager.LoadScene("Scenes/test scene");
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
     }
 
-    void Changes2()
-    {
-        mushroomObjectArray[2,1].GetComponent<Mushroom>().ChangeColor();
-    }
-
+    // Huolehditaan siitä miten pelaajan liikkuminen vaikuttaa sieniin ja sienet pelaajaan
     public void PlayerMoves()
     {
-        if (playerIsDead) return;
-        Debug.Log("playerMoves");
+        if (playerIsUnableToMove && menu.GetComponent<MenuManager>().isOpen())
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            return;
+        }
+        else if (playerIsUnableToMove) return;
+
         int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
 
         mushroomObjectArray[playerPosition[0], playerPosition[1]].GetComponent<Mushroom>().Die();
@@ -181,7 +184,7 @@ public class MapController : MonoBehaviour
         player.GetComponent<PlayerScript>().Move(directions[dirctionIndex, 0], directions[dirctionIndex, 1]);
         int[] newPlayerPosition = new int[2] { directions[dirctionIndex, 0] + playerPosition[0], directions[dirctionIndex, 1] + playerPosition[1] };
 
-
+        // Jos nykyinen nuolen suunta ei ole hyvä etsitään uusi
         if (!(newPlayerPosition[0] >= 0 && newPlayerPosition[1] >= 0
         && newPlayerPosition[0] < mushroomObjectArray.GetLength(0)
         && newPlayerPosition[1] < mushroomObjectArray.GetLength(1)
@@ -189,10 +192,6 @@ public class MapController : MonoBehaviour
         {
             FindGoodDirection();
         }
-
-
-
-    }
-                
+    }         
 }
        

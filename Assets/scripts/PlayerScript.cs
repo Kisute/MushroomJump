@@ -12,7 +12,6 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] GameObject[] arrows = new GameObject[4];
     [SerializeField] GameObject playerModel;
 
-    // Start is called before the first frame update
     void Start()
     {
         rend = GetComponent<Renderer>();
@@ -30,6 +29,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    // Vaihtaa pelaajan värin sattumanvaraisesti
     public void ChangeColor()
     {
         rend = playerModel.GetComponentInChildren<Renderer>();
@@ -40,25 +40,24 @@ public class PlayerScript : MonoBehaviour
         rend.sharedMaterials = materials;
     }
     
+    // Antaa pelaajan sienimatriisia vastaavat koordinaatit
     public int[] givePosition()
     {
         Debug.Log("position: "+ position[0] + ","+ position[1] );
         return position;
     }
 
+    // liikuttaa pelaajaa ja tallentaa uudet koordinaatit
     public void Move(int x, int y)
     {
         transform.Translate(Vector3.forward * (y) * 2);
         transform.Translate(Vector3.left * (x) * 2);
-
         
         position[0] = position[0] + x;
         position[1] = position[1] + y;
-
-
-        Debug.Log("new position: " + position[0] + "," + position[1]);
     }
 
+    // muuttaa pelaajan nuolet
     public void ChangeArrowDirections(int direction)
     {
         for (int i = 0; i < arrows.Length; i++)
