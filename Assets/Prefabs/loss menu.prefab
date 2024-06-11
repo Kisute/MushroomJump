@@ -209,7 +209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "congratulations!\n\npress space to \ncontinue!"
+  m_text: "\rnot quite!\n\npress space to \ntry again!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 5663954877556596531}
   - component: {fileID: 9097611605624097396}
   m_Layer: 5
-  m_Name: Menu 1
+  m_Name: loss menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

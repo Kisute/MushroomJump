@@ -14,7 +14,8 @@ public class MapController : MonoBehaviour
     [SerializeField] GameObject[] mushroomObjects;
     [SerializeField] GameObject player;
     [SerializeField] float rythmn;
-    [SerializeField] GameObject menu;
+    [SerializeField] GameObject victoryMenu;
+    [SerializeField] GameObject lossMenu;
 
     int dirctionIndex;
     int[,] directions;
@@ -145,7 +146,7 @@ public class MapController : MonoBehaviour
                 for (int j = 0; j < mushroomObjectArray.GetLength(0); j++)
                 {
 
-                    if (mushroomObjectArray[i, j] != null) { this.Invoke("Restart", 1f); }
+                    if (mushroomObjectArray[i, j] != null) { this.Invoke("Restart", 1f); return; }
                 }
 
             }
@@ -156,24 +157,30 @@ public class MapController : MonoBehaviour
     // k‰ynnistet‰‰n seuraava taso
     void NextLevel()
     {
-        menu.GetComponent<MenuManager>().OpenMenu();
+        victoryMenu.GetComponent<MenuManager>().OpenMenu();
     }
 
     // K‰ynnistet‰‰n nykyinen taso uusiksi
     void Restart()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
+        lossMenu.GetComponent<MenuManager>().OpenMenu();
     }
 
     // Huolehditaan siit‰ miten pelaajan liikkuminen vaikuttaa sieniin ja sienet pelaajaan
     public void PlayerMoves()
     {
-        if (playerIsUnableToMove && menu.GetComponent<MenuManager>().isOpen())
+        if (playerIsUnableToMove && victoryMenu.GetComponent<MenuManager>().isOpen())
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             return;
         }
+        if (playerIsUnableToMove && lossMenu.GetComponent<MenuManager>().isOpen())
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
+            return;
+        }
+
         else if (playerIsUnableToMove) return;
 
         int[] playerPosition = player.GetComponent<PlayerScript>().givePosition();
@@ -192,6 +199,7 @@ public class MapController : MonoBehaviour
         {
             FindGoodDirection();
         }
-    }         
+    }
+         
 }
        
