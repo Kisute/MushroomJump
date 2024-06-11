@@ -9,11 +9,17 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] int indexOfMaterial;
     Renderer rend;
     int colorIndex = 0;
+    bool moving = false;
+    Vector3 directionToMove = Vector3.zero;
+    int timesMoved = 0;
+
     [SerializeField] GameObject[] arrows = new GameObject[4];
     [SerializeField] GameObject playerModel;
 
     [SerializeField] AudioSource jumpSound;
     [SerializeField] AudioSource dyingSound;
+
+    [SerializeField] Animator animator;
 
     void Start()
     {
@@ -29,6 +35,18 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("pelaajaa haluaa liikkua");
             mapController.GetComponent<MapController>().PlayerMoves();
+        }
+
+        if (moving)
+        {
+            if (timesMoved == 10)
+            {
+                moving = false;
+                return;
+            }
+
+            else timesMoved++;
+            transform.localPosition += directionToMove;
         }
     }
 
@@ -53,9 +71,13 @@ public class PlayerScript : MonoBehaviour
     // liikuttaa pelaajaa ja tallentaa uudet koordinaatit
     public void Move(int x, int y)
     {
+        timesMoved = 0;
+        moving= true;
         jumpSound.Play();
-        transform.Translate(Vector3.forward * (y) * 2);
-        transform.Translate(Vector3.left * (x) * 2);
+        animator.Play("jump");
+        directionToMove = ((Vector3.forward * (y) * 2 + Vector3.left * (x) * 2)*0.1f);
+        //transform.Translate(Vector3.forward * (y) * 2);
+        //transform.Translate(Vector3.left * (x) * 2);
         
         position[0] = position[0] + x;
         position[1] = position[1] + y;
